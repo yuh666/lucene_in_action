@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author yuh
  * 2018/1/28.
  */
-public class Indexer {
+public class Indexer{
 
     public static void main(String[] args) throws IOException {
         indexDirectory("/Users/yuh/Desktop/快学scala", "./index");
