@@ -141,7 +141,8 @@ public class CreateTestIndex {
   private static class MyStandardAnalyzer extends StandardAnalyzer {  // 6
     public MyStandardAnalyzer(Version matchVersion) {                 // 6
       super(matchVersion);                                            // 6
-    }                                                                 // 6
+    }
+    @Override// 6
     public int getPositionIncrementGap(String field) {                // 6
       if (field.equals("contents")) {                                 // 6
         return 100;                                                   // 6
