@@ -1,4 +1,4 @@
-package org.laotie777.lucence.chapter2;
+package org.laotie777.lucence.chapter3;
 
 import junit.framework.TestCase;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
