@@ -8,7 +8,6 @@ import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.util.Version;
 import org.laotie777.lucence.util.TestUtil;
-
 import java.io.IOException;
 
 /**
