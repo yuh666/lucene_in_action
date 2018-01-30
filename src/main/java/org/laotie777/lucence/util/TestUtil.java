@@ -42,7 +42,7 @@ public class TestUtil {
     public static boolean hitTitle(IndexSearcher searcher, TopDocs docs,String title) throws IOException {
         for (ScoreDoc doc : docs.scoreDocs) {
             Document document = searcher.doc(doc.doc);
-            if("title".equals(document.get("title"))){
+            if(title.equals(document.get("title"))){
                 return true;
             }
         }
