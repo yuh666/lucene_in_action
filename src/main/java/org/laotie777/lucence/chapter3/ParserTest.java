@@ -2,6 +2,7 @@ package org.laotie777.lucence.chapter3;
 
 import junit.framework.TestCase;
 import org.apache.lucene.analysis.SimpleAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
@@ -62,6 +63,43 @@ public class ParserTest extends TestCase{
         TopDocs docs1 = searcher.search(query1,10);
         assertTrue(TestUtil.hitTitle(searcher,docs1,"Tapestry in Action"));
     }
+
+    /**
+     * 测试大小写
+     */
+    public void testLowerCase() throws ParseException {
+        QueryParser parser = new QueryParser(Version.LUCENE_30,"field",new SimpleAnalyzer());
+        Query query = parser.parse("prefixQuery*");
+        assertEquals("prefixquery*",query.toString("field"));
+        parser.setLowercaseExpandedTerms(false);
+        Query query1 = parser.parse("prefixQuery*");
+        assertEquals("prefixQuery*",query1.toString("field"));
+        //toString()传入域的名称的就会显示域的查询条件 不显示前面的冒号
+    }
+
+    /**
+     * 测试Phrase 双引号扩住的多个词汇会被解析成Phrase 单个词汇会被解析成termQuery 通配符不会被解析 停止词会被替换为“？”
+     */
+    public void testPhrase() throws ParseException {
+        QueryParser parser = new QueryParser(Version.LUCENE_30,"field",new StandardAnalyzer(Version.LUCENE_30));
+        Query query = parser.parse("\"This is Some Phrases*\"");
+        assertEquals("\"? ? some phrases\"",query.toString("field"));
+        Query query1 = parser.parse("\"term\"");
+        assertTrue(query1 instanceof TermQuery);
+    }
+
+    /**
+     * 测试Slop 设置slop就会变成slop查询
+     */
+    public void testSlop() throws ParseException {
+        QueryParser parser = new QueryParser(Version.LUCENE_30,"field",new StandardAnalyzer(Version.LUCENE_30));
+        parser.setPhraseSlop(5);
+        Query query = parser.parse("\"Some Phrases\"");
+        assertEquals("\"some phrases\"~5",query.toString("field"));
+    }
+
+
+
 
 }
 

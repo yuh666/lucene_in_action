@@ -64,7 +64,7 @@ public class PhraseTest extends TestCase {
      * @throws IOException
      */
     public void testTwoPhrases() throws IOException {
-        assertTrue(match(new String[]{"fox","quick"},searcher,2));
+        assertTrue(match(new String[]{"fox","quick"},searcher,3));
     }
 
     /**
