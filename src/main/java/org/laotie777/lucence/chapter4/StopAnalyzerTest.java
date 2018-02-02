@@ -18,4 +18,5 @@ public class StopAnalyzerTest extends TestCase{
     public void testStopAnalyzer2() throws IOException {
         AnalyzerUtils.assrtOutputEuqalTExpected(new StopAnalyzer2(),"The quick fox",new String[]{"quick","fox"});
     }
+
 }
