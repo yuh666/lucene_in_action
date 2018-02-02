@@ -6,6 +6,7 @@ import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
+import org.junit.Assert;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -62,6 +63,24 @@ public class AnalyzerUtils {
                     "[" + termAttribute.term() + ":" + offsetAttribute.startOffset() + "->" + offsetAttribute.endOffset() + "]" + ":" + typeAttribute.type()
             );
         }
+    }
+
+    /**
+     * 断言输出和预期是一致的
+     *
+     * @param analyzer
+     * @param line
+     * @param terms
+     */
+    public static void assrtOutputEuqalTExpected(Analyzer analyzer, String line, String[] terms) throws IOException {
+        TokenStream stream = analyzer.tokenStream("field", new StringReader(line));
+        TermAttribute termAttribute = stream.addAttribute(TermAttribute.class);
+        for (String term : terms) {
+            Assert.assertTrue(stream.incrementToken());
+            Assert.assertEquals(term,termAttribute.term());
+        }
+        Assert.assertFalse(stream.incrementToken());
+        stream.close();
     }
 
 
