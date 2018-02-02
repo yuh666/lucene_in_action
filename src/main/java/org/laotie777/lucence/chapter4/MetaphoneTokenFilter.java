@@ -2,6 +2,7 @@ package org.laotie777.lucence.chapter4;
 
 import org.apache.commons.codec.language.Metaphone;
 import org.apache.lucene.analysis.LetterTokenizer;
+import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
@@ -22,6 +23,8 @@ public class MetaphoneTokenFilter extends TokenFilter {
 
     public MetaphoneTokenFilter(TokenStream input) {
         super(input);
+        termAttribute = input.addAttribute(TermAttribute.class);
+        typeAttribute = input.addAttribute(TypeAttribute.class);
     }
 
     @Override
