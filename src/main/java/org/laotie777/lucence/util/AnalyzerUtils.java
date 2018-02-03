@@ -66,6 +66,30 @@ public class AnalyzerUtils {
     }
 
     /**
+     * 词汇单元的详细信息
+     *
+     * @param analyzer
+     * @param text
+     */
+    public static void displayTokensWithIncrement(Analyzer analyzer, String text) throws IOException {
+        TokenStream stream = analyzer.tokenStream("field", new StringReader(text));
+        TermAttribute termAttribute = stream.addAttribute(TermAttribute.class);
+        PositionIncrementAttribute positionIncrementAttribute = stream.addAttribute(PositionIncrementAttribute.class);
+        int position = 0;
+        while (stream.incrementToken()) {
+            int positionIncrement = positionIncrementAttribute.getPositionIncrement();
+            if (positionIncrement > 0) {
+                position += positionIncrement;
+                System.out.println();
+                System.out.print(position + ": ");
+            }
+            System.out.print(
+                    "[" + termAttribute.term() + "] "
+            );
+        }
+    }
+
+    /**
      * 断言输出和预期是一致的
      *
      * @param analyzer

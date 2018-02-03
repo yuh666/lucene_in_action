@@ -11,10 +11,16 @@ import java.io.Reader;
  * 同义词分词器
  */
 public class SynonymAnalyzer extends Analyzer {
+
+    protected SynonymEngine engine;
+    public SynonymAnalyzer(SynonymEngine engine){
+        this.engine = engine;
+    }
+
     @Override
     public TokenStream tokenStream(String fieldName, Reader reader) {
         return new SynonymFilter(
-                new SynonymEngineImpl(),
+                engine,
                     new StopFilter(true,
                         new LowerCaseFilter(
                                 new StandardFilter(

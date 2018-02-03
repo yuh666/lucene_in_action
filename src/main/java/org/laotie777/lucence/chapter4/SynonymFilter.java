@@ -43,7 +43,7 @@ public class SynonymFilter extends TokenFilter {
             return true;
         }
 
-        //利用引用推动上一级别的词汇流 整个是个递归的过程
+        //利用引用推动上一级别的词汇流 整个是个递归的过程 filter可以進行處理 也可以不處理
         if(!input.incrementToken()){
             return false;
         }
@@ -61,7 +61,7 @@ public class SynonymFilter extends TokenFilter {
      */
     private boolean addAliasesToStatck() {
         String[] synonyms = engine.getSynonyms(termAttribute.term());
-        if (synonyms.length == 0) {
+        if (synonyms == null) {
             return false;
         }else{
             for (String synonym : synonyms) {
