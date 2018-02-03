@@ -21,7 +21,7 @@ import java.io.IOException;
  * @Date Created in 下午1:18 2018/2/2
  * @Description 自定义词分析器测试
  */
-public class MyAnalyzerTest extends TestCase{
+public class MyAnalyzerTest extends TestCase {
 
     protected IndexSearcher searcher;
     protected IndexWriter writer;
@@ -31,9 +31,9 @@ public class MyAnalyzerTest extends TestCase{
     @Override
     protected void setUp() throws Exception {
         directory = new RAMDirectory();
-        writer = new IndexWriter(directory,new MetaphoneAnalyzer(), IndexWriter.MaxFieldLength.UNLIMITED);
+        writer = new IndexWriter(directory, new MetaphoneAnalyzer(), IndexWriter.MaxFieldLength.UNLIMITED);
         Document document = new Document();
-        document.add(new Field("field","cat cool", Field.Store.YES, Field.Index.ANALYZED));
+        document.add(new Field("field", "cat cool", Field.Store.YES, Field.Index.ANALYZED));
         writer.addDocument(document);
         writer.optimize();
         writer.commit();
@@ -45,9 +45,17 @@ public class MyAnalyzerTest extends TestCase{
      * 测试自定义词分词器
      */
     public void testMetaAnalyzer() throws IOException, ParseException {
-        QueryParser parser = new QueryParser(Version.LUCENE_30,"field",new MetaphoneAnalyzer());
+        QueryParser parser = new QueryParser(Version.LUCENE_30, "field", new MetaphoneAnalyzer());
         TopDocs docs = searcher.search(parser.parse("kat kool"), 10);
         System.out.println(docs.totalHits);
+    }
+
+    /**
+     * 测试同音词分词器的分词效果
+     */
+    public void testDisplayTokens() throws IOException {
+        AnalyzerUtils.displayTokens(new MetaphoneAnalyzer(),"the quick brown");
+        AnalyzerUtils.displayTokens(new MetaphoneAnalyzer(),"tha quik brown");
     }
 
 }
