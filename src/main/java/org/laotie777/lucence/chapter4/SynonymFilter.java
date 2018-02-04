@@ -43,7 +43,7 @@ public class SynonymFilter extends TokenFilter {
             return true;
         }
 
-        //利用引用推动上一级别的词汇流 整个是个递归的过程 filter可以進行處理 也可以不處理
+        //利用引用推动上一级别的词汇流 整个是个递归的过程 filter可以進行處理 也可以不處理 位置增量是相對上一個詞彙說的 set实际上就是累加
         if(!input.incrementToken()){
             return false;
         }
