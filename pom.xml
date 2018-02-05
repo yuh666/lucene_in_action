@@ -18,6 +18,13 @@
 
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
@@ -49,6 +56,14 @@
             <version>1.10</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -64,10 +79,7 @@
                 <configuration>
 
                     <source>1.8</source>
-
                     <target>1.8</target>
-
-                    <encoding>${file_encoding}</encoding>
 
                 </configuration>
 
