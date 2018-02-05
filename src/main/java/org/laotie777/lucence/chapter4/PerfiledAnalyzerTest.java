@@ -41,7 +41,7 @@ public class PerfiledAnalyzerTest extends TestCase {
         writer = new IndexWriter(directory, new SimpleAnalyzer(), IndexWriter.MaxFieldLength.UNLIMITED);
         Document document = new Document();
         document.add(new Field("description", "A SPACE B", Field.Store.YES, Field.Index.ANALYZED));
-        document.add(new Field("partnum","Q36", Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS));
+        document.add(new Field("partnum", "Q36", Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS));
         writer.addDocument(document);
         writer.optimize();
         writer.commit();
@@ -50,44 +50,23 @@ public class PerfiledAnalyzerTest extends TestCase {
     }
 
     public void testTermQuery() throws IOException, ParseException {
-        TermQuery query = new TermQuery(new Term("partnum","Q36"));
-        TopDocs docs = searcher.search(query,10);
+        TermQuery query = new TermQuery(new Term("partnum", "Q36"));
+        TopDocs docs = searcher.search(query, 10);
         System.out.println(docs.totalHits);
 
-        QueryParser parser = new QueryParser(Version.LUCENE_30,"description",new SimpleAnalyzer());
+        QueryParser parser = new QueryParser(Version.LUCENE_30, "description", new SimpleAnalyzer());
         Query query1 = parser.parse("partnum:Q36 AND SPACE");
         System.out.println(query1.toString("description"));
-        TopDocs docs1 = searcher.search(query1,10);
+        TopDocs docs1 = searcher.search(query1, 10);
         System.out.println(docs1.totalHits);
 
         PerFieldAnalyzerWrapper perFieldAnalyzerWrapper = new PerFieldAnalyzerWrapper(new SimpleAnalyzer());
-        perFieldAnalyzerWrapper.addAnalyzer("partnum",new KeywordAnalyzer());
-        QueryParser parser1 = new QueryParser(Version.LUCENE_30,"description",perFieldAnalyzerWrapper);
+        perFieldAnalyzerWrapper.addAnalyzer("partnum", new KeywordAnalyzer());
+        QueryParser parser1 = new QueryParser(Version.LUCENE_30, "description", perFieldAnalyzerWrapper);
         Query query2 = parser1.parse("partnum:Q36 AND SPACE");
         System.out.println(query2.toString("description"));
-        TopDocs docs2 = searcher.search(query2,10);
+        TopDocs docs2 = searcher.search(query2, 10);
         System.out.println(docs2.totalHits);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 

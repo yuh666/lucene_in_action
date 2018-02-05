@@ -16,6 +16,9 @@ package org.laotie777.lucence.chapter5;
  */
 
 import junit.framework.TestCase;
+import org.apache.lucene.analysis.SimpleAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
@@ -36,6 +39,7 @@ import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.laotie777.lucence.chapter4.SynonymAnalyzer;
 import org.laotie777.lucence.chapter4.SynonymEngine;
+import org.laotie777.lucence.util.TestUtil;
 
 import java.io.IOException;
 
@@ -98,6 +102,27 @@ public class MultiPhraseQueryTest extends TestCase {
         assertTrue(parse instanceof MultiPhraseQuery);
         System.out.println(parse);
 
+    }
+
+    /**
+     * 多值域检索
+     */
+    public void testMultiQuery() throws ParseException, IOException {
+        MultiFieldQueryParser multiFieldQueryParser = new MultiFieldQueryParser(Version.LUCENE_30, new String[]{"title", "subject"}, new SimpleAnalyzer());
+        Query query = multiFieldQueryParser.parse("development");
+        searcher = new IndexSearcher(TestUtil.getIndexDirectory());
+        TopDocs docs = searcher.search(query, 10);
+        TestUtil.printRes(docs,searcher);
+    }
+
+    /**
+     * 多值域检索2
+     */
+    public void testMultiQuery2() throws ParseException, IOException {
+        Query query = MultiFieldQueryParser.parse(Version.LUCENE_30, "lucene",new String[]{"title", "subject"}, new BooleanClause.Occur[]{BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD},new SimpleAnalyzer());
+        searcher = new IndexSearcher(TestUtil.getIndexDirectory());
+        TopDocs docs = searcher.search(query, 10);
+        TestUtil.printRes(docs,searcher);
     }
 
 
