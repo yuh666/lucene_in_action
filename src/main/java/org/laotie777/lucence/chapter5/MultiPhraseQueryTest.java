@@ -16,6 +16,7 @@ package org.laotie777.lucence.chapter5;
  */
 
 import junit.framework.TestCase;
+import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -33,6 +34,8 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
+import org.laotie777.lucence.chapter4.SynonymAnalyzer;
+import org.laotie777.lucence.chapter4.SynonymEngine;
 
 import java.io.IOException;
 
@@ -77,6 +80,26 @@ public class MultiPhraseQueryTest extends TestCase {
         System.out.println(docs.totalHits);
         System.out.println(docs1.totalHits);
     }
+
+
+    public void testQueryParser() throws ParseException {
+        QueryParser parser = new QueryParser(Version.LUCENE_30, "field", new SynonymAnalyzer(new SynonymEngine() {
+            @Override
+            public String[] getSynonyms(String s) {
+                if ("quick".equals(s)) {
+                    return new String[]{"fast"};
+                }
+                return null;
+            }
+        }
+        ));
+
+        Query parse = parser.parse("\"quick fox\"");
+        assertTrue(parse instanceof MultiPhraseQuery);
+        System.out.println(parse);
+
+    }
+
 
     private void debug(TopDocs hits) throws IOException {
         for (ScoreDoc sd : hits.scoreDocs) {
