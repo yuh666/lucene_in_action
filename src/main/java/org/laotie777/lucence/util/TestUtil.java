@@ -21,6 +21,10 @@ public class TestUtil {
         return searcher.search(query,100).totalHits;
     }
 
+    public static int hitCount(IndexSearcher searcher, Query query, Filter filter) throws IOException {
+        return searcher.search(query, filter, 1).totalHits;
+    }
+
     /**
      * 返回索引路径
      * @return
