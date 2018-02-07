@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "erpWebServicesImpl", targetNamespace = "http://services.webservices.sdcloud.com/", wsdlLocation = "http://dev.cloudsmaker.net:9020/webservices/services/erp?wsdl")
+@WebServiceClient(name = "erpWebServicesImpl", targetNamespace = "http://services.webservices.sdcloud.com/", wsdlLocation = "http://localhost:8081/web.webservices/services/erp?wsdl")
 public class ErpWebServicesImpl_Service
     extends Service
 {
@@ -30,7 +30,7 @@ public class ErpWebServicesImpl_Service
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://dev.cloudsmaker.net:9020/webservices/services/erp?wsdl");
+            url = new URL("http://localhost:8081/web.webservices/services/erp?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
